@@ -1,0 +1,36 @@
+import heapq
+
+def find_optimal_deals(request,sellers):
+  results = []
+  for equipment_type,max_price in request:
+    eligible_sellers = []
+    for seller_type,seller_price in sellers:
+      if seller_type == equipment_type and seller_price<=max_price:
+        heapq.heappush(eligible_sellers,seller_price)
+      if eligible_sellers:
+        results.append(heapq.heappop(eligible_sellers))
+      else:
+        results.append(None)
+  return results
+
+if __name__== "__main__":
+  request=[]
+  sellers=[]
+
+  req_count = int(input("Enter number of request:"))
+  print("Enter requests (equipment_type max_price):")
+  for _ in range(req_count):
+    equipment_type,max_price = input().split()
+    request.append((equipment_type,int(max_price)))
+
+  sell_count = int(input("Enter number of sellers:"))
+  print("Enter sellers(equipment_type price):")
+  for i in range(sell_count):
+    equipment_type,price = input().split()
+    sellers.append((equipment_type,int(price)))
+
+  result = find_optimal_deals(request,sellers)
+  print(result)
+
+
+      
