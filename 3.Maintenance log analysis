@@ -1,0 +1,33 @@
+from datetime import datetime
+
+def analyze_maintenance_logs(logs,queries):
+  results = []
+  for start_date_str,end_date_str in queries:
+    start_date= datetime.strptime(start_date_str, "%Y-%m-%d").date()
+    end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
+    total_cost = 0
+    for _,date_str, cost in logs:
+      date = datetime.strptime(date_str,"%Y-%m-%d").date()
+      if start_date <= date <= end_date:
+        total_cost+= cost
+
+    results.append(total_cost)
+  return results
+
+if __name__=="__main__":
+    logs = []
+    queries = []
+    
+    log_count = int(input("Enter the number of logs:"))
+    print("Enter logs (equipment_id date cost):")
+    for _ in range(log_count):
+        log_input = input().split()
+        logs.append((int(log_input[0]),log_input[1],int(log_input[2])))
+
+    query_count = int(input("Enter the number of queries:"))
+    print("Enter queries(start_date,end_date):")
+    for _ in range(query_count):
+        query_input = input().split()
+        queries.append((query_input[0],query_input[1]))
+    result = analyze_maintenance_logs(logs,queries)
+    print(result)
